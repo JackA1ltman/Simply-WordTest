@@ -1,0 +1,10 @@
+body{
+    background: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+/* 设置类型为flex，flex浮动为横向浮动，并且居中 */
+.main_firmware div{
+    margin: 0 auto;
+}

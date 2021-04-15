@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="data/css/style.css">
+    <title>词语测试-主页</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var url = "data/js/method.json";
+            /* 指定JSON文件 */
+            var request = new XMLHttpRequest();
+            request.open("get",url);
+            request.send(null);
+            request.onload = function () {
+                if(request.status == 200) {
+                    var json = JSON.parse(request.responseText);
+                    var mf = document.getElementById("mf");
+                    json.sentence.map(
+                        sentence => {
+                            document.title = `${sentence.name}`+'-主页';
+                            var firemare = document.createElement("div");
+                            firemare.innerHTML =
+                                '<div name="title" style="text-align: center;">'+`${sentence.name}`+'</div>'
+                                +
+                                '<div>欢迎访问'+`${sentence.name}`+'！我们衷心的的希望这套测试系统可以帮助你的学习！</div>'
+                                +
+                                '<div class="more_buttons" id="mb">';
+                            mf.append(firemare);
+                            var mb = document.getElementById("mb");
+                            var more = document.createElement("div");
+                            more.innerHTML =
+                                '<a href="data/login.php"><input type="button" name="lg" value="登陆"></a>'
+                                +
+                                '<a href="data/english.php?method=sentence"><input type="button" name="eng" value="'+`${sentence.setting1}`+'"></a>'
+                                +
+                                '<a href="data/chinese.php?method=sentence"><input type="button" name="chn" value="'+`${sentence.setting2}`+'"></a>'
+                                +
+                                '<a href="data/detail/neword.php?method=sentence"><input type="button" name="add" value="添加'+`${sentence.total}`+'"></a>'
+                                +
+                                '<a href="data/detail/manager.php?method=sentence"><input type="button" name="modify" value="管理'+`${sentence.total}`+'"></a>';
+                            mb.append(more);
+                        }
+                    )
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="main_firmware" id="mf">
+
+    </div>
+</div>
+</body>
+</html>
