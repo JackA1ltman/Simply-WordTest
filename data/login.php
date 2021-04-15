@@ -1,8 +1,13 @@
 <?php
-function __autoload($className)
+function classLoad($className)
 {
-    require_once '../nut/class/'.$className.'.class.php';
+    $fileLoad = '../nut/class/'.$className.'.class.php';
+    if (is_file($fileLoad)) {
+        require_once ($fileLoad);
+    }
 }
+spl_autoload_register('classLoad');
+require_once '../config.php';
 $mysql=new mysql();
 $check=new check();
 session_start();//开启SESSION
@@ -13,7 +18,7 @@ if(!empty($_POST)){
     $username=$_POST['username'];
     $password=md5($_POST['password']);
     /* 以上为将_POST中的值转化为标准变量 */
-    $connectMysql=$mysql->connect("127.0.0.1","root","root","dict");//连接数据库
+    $connectMysql=$mysql->connect(constant("LINK"),constant("USERNAME"),constant("PASSWORD"),constant("NAME"));//连接数据库
     $processMysql=$mysql->variable("select username,password,nickname,authority from account where username='{$username}' and password='{$password}'");//需要执行的SQL语句
     $queryMysql=$mysql->choice(2);//展示执行后数组
     /* 以上为MySQL的连接以及执行过程 */

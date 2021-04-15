@@ -1,8 +1,13 @@
 <?php
-function __autoload($className)
+function classLoad($className)
 {
-    require_once '../nut/class/'.$className.'.class.php';
+    $fileLoad = '../nut/class/'.$className.'.class.php';
+    if (is_file($fileLoad)) {
+        require_once ($fileLoad);
+    }
 }
+spl_autoload_register('classLoad');
+require_once '../config.php';
 $mysql=new mysql();
 $check=new check();
 session_start();//开启SESSION
@@ -12,7 +17,7 @@ if(empty($_GET)){
     exit;
 }
 /*检测method*/
-$connectMysql=$mysql->connect("127.0.0.1","root","root","dict");//连接数据库
+$connectMysql=$mysql->connect(constant("LINK"),constant("USERNAME"),constant("PASSWORD"),constant("NAME"));//连接数据库
 $processMysql=$mysql->variable("select english,chinese,id from {$_GET['method']}");//需要执行的SQL语句
 $queryMysql=$mysql->choice(1);//展示执行后数组
 /* 以上为MySQL的连接以及执行过程 */
